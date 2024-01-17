@@ -9,10 +9,10 @@ body {
 h1 {
     color: #333;
     font-size: 24px;
-    background-color: #bbffb2;
+    background-color: #FFCCFF;
     padding: 15px;
     border-radius: 5px;
-    color: rgb(0, 0, 0);
+    color: #000000;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -23,7 +23,7 @@ ul {
 }
 
 li {
-    background-color: #fff;
+    background-color: #DDA0DD;
 
     padding: 15px;
     margin: 10px 0;
@@ -51,8 +51,8 @@ input[type="text"] {
 
 button {
     padding: 12px 24px;
-    background-color: #ffaced;
-    color: white;
+    background-color: #FFC0CB;
+    color: #000000;
     border: none;
     border-radius: 8px;
     cursor: pointer;
