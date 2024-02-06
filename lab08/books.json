@@ -1,0 +1,29 @@
+{
+    "books": [
+      {
+        "id": 1,
+        "name": "สอนหนูให้รวย",
+        "price": "120",
+        "author1": "โรเบิร์ต ที คิโยซากิ",
+        "author2": "ชารอน แอล แลชเตอร์",
+        "author3": " "
+      },
+      {
+        "id": 2,
+        "name": "ความรู้สึกนี้ใหญ่หลวงนัก (Big Feelings: How to Be Okay When Things Are Not Okay)",
+        "price": "399",
+        "author1": "ลิซ ฟอสส์ลีน",
+        "author2": "มอลลี เวสต์ ดัฟฟี",
+        "author3": " "
+      },
+      {
+        "id": 3,
+        "name": "AI ที่มีหัวใจ The Ethical Algorithm",
+        "price": "360",
+        "author1": "แอรอน รอธ",
+        "author2": "ไมเคิล เคินส์",
+        "author3": " "
+      }
+    ]
+  }
+  
