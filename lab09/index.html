@@ -1,0 +1,148 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Global Styles */
+    header {
+    background-color: #FFC0CB;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #FFE4E1;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+    }
+    button {
+      background-color: #DB7093;
+      color: #fff;
+      border: none;
+      padding: 10px 30px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px; /* Add some space above the button */
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <header>
+  <h1>My Cat Gallery</h1>
+  </header>
+  <!-- Button to navigate to uploadcat.html -->
+  <a href="uploadcat.html"><button>Upload Cat</button></a>
+  
+  <!-- Button to download JSON file -->
+  
+  <button onclick="downloadJSON()">Download JSON</button>
+
+  <!-- Input for uploading JSON file -->
+  <input type="file" id="jsonFileInput" style="display: none;" onchange="handleFileUpload(event)">
+
+  <!-- Display uploaded cats -->
+  <div class="cat-container" id="uploadedCats"></div>
+</div>
+<!-- Script for displaying uploaded cats and handling JSON operations -->
+<script>
+    const API_URL = "https://api.thecatapi.com/v1/";
+    const API_KEY = "live_V4C5PksFGmrfMyaa3Q4rujZDBgnXiXBD1pGmHaf2d1xhpSd6gX2L5LphokgPTqn8";
+
+    function displayUploadedCats() {
+      fetch(`${API_URL}images/?limit=10&page=0&order=DESC`, {
+        method: "GET",
+        headers: {
+          "x-api-key": API_KEY,
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+          const uploadedCats = document.getElementById("uploadedCats");
+          if (data.length === 0) {
+            uploadedCats.innerHTML = "No uploaded cats found.";
+          } else {
+            data.forEach(cat => {
+              const catDiv = document.createElement("div");
+              catDiv.innerHTML = `
+                <div style="position: relative;">
+                  <img src="${cat.url}" width="22%" title="${cat.id}"/>  
+                  <button onclick="deleteCat('${cat.id}')"><img src="images/delete-24.png"></button>
+                </div>`;
+              uploadedCats.appendChild(catDiv);
+            });
+          }
+        })
+        .catch(error => console.error("Error fetching cats:", error));
+    }
+
+    // Function to delete a cat
+    function deleteCat(pid) {
+      fetch(`${API_URL}images/${pid}`, {
+        method: "DELETE",
+        headers: {
+          "x-api-key": API_KEY,
+        },
+      })
+        .then((response) => {
+          return response.json(); 
+        })
+        .then((data) => {
+          console.log(data);
+          alert("Image deleted successfully");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    // Function to download JSON file
+    function downloadJSON() {
+      fetch(`${API_URL}images/?limit=10&page=0&order=DESC`, {
+        method: "GET",
+        headers: {
+          "x-api-key": API_KEY,
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+          const jsonContent = JSON.stringify(data);
+          const blob = new Blob([jsonContent], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'cats.json';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        })
+        .catch(error => console.error("Error downloading JSON file:", error));
+    }
+
+    // Function to handle file upload
+    function handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const jsonData = JSON.parse(event.target.result);
+          // Here you can do whatever you want with the uploaded JSON data
+          console.log("Uploaded JSON data:", jsonData);
+        };
+        reader.readAsText(file);
+      }
+    }
+
+    // Call the function to display uploaded cats when the page loads
+    displayUploadedCats();
+</script>
+</body>
+</html>
